@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-indigo-50: var(--color-indigo-50-val);
+  --color-indigo-100: var(--color-indigo-100-val);
+  --color-indigo-200: var(--color-indigo-200-val);
+  --color-indigo-400: var(--color-indigo-400-val);
+  --color-indigo-500: var(--color-indigo-500-val);
+  --color-indigo-600: var(--color-indigo-600-val);
+  --color-indigo-700: var(--color-indigo-700-val);
+  
+  --color-violet-500: var(--color-violet-500-val);
+  --color-purple-500: var(--color-purple-500-val);
+  
+  --color-gray-50: var(--color-gray-50-val);
+  --color-gray-900: var(--color-gray-900-val);
+  --color-gray-950: var(--color-gray-950-val);
+  
+  --color-white: var(--color-white-val);
+}
+
+/* ===== Theme Variables ===== */
+
+:root, :root.theme-indigo {
+  --color-indigo-50-val: #e0e7ff;
+  --color-indigo-100-val: #c7d2fe;
+  --color-indigo-200-val: #a5b4fc;
+  --color-indigo-400-val: #818cf8;
+  --color-indigo-500-val: #6366f1;
+  --color-indigo-600-val: #4f46e5;
+  --color-indigo-700-val: #4338ca;
+  --color-violet-500-val: #8b5cf6;
+  --color-purple-500-val: #a855f7;
+  --color-gray-50-val: #f9fafb;
+  --color-gray-900-val: #111827;
+  --color-gray-950-val: #030712;
+  --color-white-val: #ffffff;
+}
+
+:root.theme-emerald {
+  --color-indigo-50-val: #f0fdf4;
+  --color-indigo-100-val: #dcfce7;
+  --color-indigo-200-val: #bbf7d0;
+  --color-indigo-400-val: #34d399;
+  --color-indigo-500-val: #10b981;
+  --color-indigo-600-val: #059669;
+  --color-indigo-700-val: #047857;
+  --color-violet-500-val: #14b8a6;
+  --color-purple-500-val: #06b6d4;
+  --color-gray-50-val: #f4fbf7;
+  --color-gray-900-val: #062016;
+  --color-gray-950-val: #020f0a;
+  --color-white-val: #ffffff;
+}
+
+:root.theme-sakura {
+  --color-indigo-50-val: #fff1f2;
+  --color-indigo-100-val: #ffe4e6;
+  --color-indigo-200-val: #fecdd3;
+  --color-indigo-400-val: #fb7185;
+  --color-indigo-500-val: #f43f5e;
+  --color-indigo-600-val: #e11d48;
+  --color-indigo-700-val: #be123c;
+  --color-violet-500-val: #ec4899;
+  --color-purple-500-val: #d946ef;
+  --color-gray-50-val: #fff5f5;
+  --color-gray-900-val: #1e0b11;
+  --color-gray-950-val: #0f0307;
+  --color-white-val: #ffffff;
+}
+
+:root.theme-warm {
+  --color-indigo-50-val: #fef3c7;
+  --color-indigo-100-val: #fde68a;
+  --color-indigo-200-val: #fcd34d;
+  --color-indigo-400-val: #f59e0b;
+  --color-indigo-500-val: #eab308;
+  --color-indigo-600-val: #d97706;
+  --color-indigo-700-val: #b45309;
+  --color-violet-500-val: #f97316;
+  --color-purple-500-val: #ef4444;
+  --color-gray-50-val: #faf6f0;
+  --color-gray-900-val: #1f1610;
+  --color-gray-950-val: #140e0a;
+  --color-white-val: #fffcf9;
+}
+
+:root.theme-cyber {
+  --color-indigo-50-val: #ecfeff;
+  --color-indigo-100-val: #cffafe;
+  --color-indigo-200-val: #a5f3fc;
+  --color-indigo-400-val: #22d3ee;
+  --color-indigo-500-val: #06b6d4;
+  --color-indigo-600-val: #0891b2;
+  --color-indigo-700-val: #0369a1;
+  --color-violet-500-val: #a855f7;
+  --color-purple-500-val: #ec4899;
+  --color-gray-50-val: #f1f5f9;
+  --color-gray-900-val: #0a0b10;
+  --color-gray-950-val: #030408;
+  --color-white-val: #ffffff;
+}
+
+/* ===== Base Styles ===== */
+
+html {
+  scroll-behavior: smooth;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: inherit;
+}
+
+/* ===== Custom Scrollbar ===== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ===== Animations ===== */
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== Utility Classes ===== */
+
+/* Line clamp for project descriptions */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Font heading utility */
+.font-heading {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.5);
+}
