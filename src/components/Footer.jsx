@@ -32,7 +32,6 @@ export default function Footer() {
   if (loading) return null;
 
   const name = personal?.name || "Developer";
-  const firstName = personal?.firstName || "Developer";
   const tagline = personal?.tagline || "";
   const socialIcons = [
     { icon: GithubIcon, url: personal?.social?.github || "#", label: "GitHub" },

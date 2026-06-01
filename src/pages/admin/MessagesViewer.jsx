@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchContactMessages, deleteContactMessage } from "../../utils/supabaseClient";
-import { Trash2, Mail, User, Clock, Loader2 } from "lucide-react";
+import { Trash2, Mail, User, Clock } from "lucide-react";
 import Toast from "../../components/ui/Toast";
 
 export default function MessagesViewer() {

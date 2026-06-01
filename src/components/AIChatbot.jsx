@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send, Loader2, Bot, AlertCircle } from "lucide-react";
-import Button from "./ui/Button";
+import { X, Send, Loader2, Bot } from "lucide-react";
 import {
   usePersonalInfo,
   useSkills,
@@ -15,16 +14,6 @@ const suggestions = [
   "Tell me about your work experience.",
   "How can I get in touch with you?",
 ];
-
-function getYouTubeEmbedUrl(url) {
-  if (!url) return null;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  if (match && match[2].length === 11) {
-    return `https://www.youtube.com/embed/${match[2]}`;
-  }
-  return null;
-}
 
 // Custom Markdown Renderer components for GPT-like response rendering
 function InlineFormatter({ text }) {

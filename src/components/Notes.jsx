@@ -4,7 +4,6 @@ import { BookOpen, Calendar, Search, ArrowRight, X, ExternalLink } from "lucide-
 import { YoutubeIcon } from "./ui/Icons";
 import SectionHeading from "./ui/SectionHeading";
 import ScrollReveal from "./ui/ScrollReveal";
-import Button from "./ui/Button";
 import { useNotes } from "../hooks/useSupabaseData";
 import { SectionSkeleton } from "./ui/LoadingSkeleton";
 
@@ -22,7 +21,7 @@ const noteCategories = [
 
 function getYouTubeEmbedUrl(url) {
   if (!url) return null;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
   const match = url.match(regExp);
   if (match && match[2].length === 11) {
     return `https://www.youtube.com/embed/${match[2]}`;

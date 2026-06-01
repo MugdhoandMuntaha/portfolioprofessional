@@ -12,7 +12,6 @@ import {
   Menu,
   X,
   Code2,
-  ShieldAlert,
   BookOpen,
 } from "lucide-react";
 

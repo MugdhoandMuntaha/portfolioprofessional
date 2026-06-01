@@ -13,8 +13,6 @@ import {
   Search,
   Loader2,
   ExternalLink,
-  Code2,
-  AlertTriangle,
   Upload,
 } from "lucide-react";
 import Button from "../../components/ui/Button";
