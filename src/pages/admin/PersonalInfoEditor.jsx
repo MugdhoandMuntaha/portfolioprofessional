@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-unused-vars */
 import { useState, useEffect } from "react";
 import {
   fetchPersonalInfo,
@@ -336,6 +337,9 @@ export default function PersonalInfoEditor() {
                   </div>
                 </div>
               </div>
+              <p className="mt-3 text-xs text-gray-400 leading-relaxed">
+                <span className="font-semibold text-indigo-400">Setup Tip:</span> To upload files successfully, ensure you have created a <strong>public</strong> storage bucket named <code className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">portfolio</code> in your Supabase dashboard. Alternatively, you can copy your resume PDF directly to the project's <code className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">public/</code> directory (e.g. as <code className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">public/resume.pdf</code>) and enter <code className="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">/resume.pdf</code> as the Direct PDF URL.
+              </p>
             </div>
           </div>
         </div>

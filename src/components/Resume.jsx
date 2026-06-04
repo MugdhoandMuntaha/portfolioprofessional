@@ -1,3 +1,4 @@
+/* eslint-disable no-undef, no-unused-vars */
 import { Download, FileText, Briefcase, Calendar } from "lucide-react";
 import SectionHeading from "./ui/SectionHeading";
 import ScrollReveal from "./ui/ScrollReveal";
@@ -22,7 +23,40 @@ export default function Resume() {
     );
   }
 
-  const resumeUrl = personal?.resumeUrl || "#";
+  const hasResume = !!(personal?.resumeUrl && personal.resumeUrl !== "#" && personal.resumeUrl.trim() !== "");
+  const resumeUrl = hasResume ? personal.resumeUrl : null;
+
+  const handleDownload = async (e) => {
+    if (!hasResume || !resumeUrl) {
+      e.preventDefault();
+      return;
+    }
+
+    // For external/cross-origin files, fetch them as a blob to bypass modern browser's same-origin restriction on `download` attribute
+    if (resumeUrl.startsWith("http") && !resumeUrl.includes(window.location.origin)) {
+      e.preventDefault();
+      try {
+        const response = await fetch(resumeUrl);
+        if (!response.ok) throw new Error("Failed to fetch file");
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+
+        // Try to determine filename from URL or default to resume.pdf
+        const fileName = resumeUrl.split("/").pop().split("?")[0] || "resume.pdf";
+        link.download = fileName;
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      } catch (err) {
+        console.error("Blob download failed, opening in new tab instead:", err);
+        window.open(resumeUrl, "_blank", "noopener,noreferrer");
+      }
+    }
+  };
 
   return (
     <section
@@ -54,13 +88,15 @@ export default function Resume() {
                     Download my full resume to learn more about my experience and qualifications.
                   </p>
                   <Button
-                    href={resumeUrl}
+                    href={hasResume ? resumeUrl : undefined}
+                    disabled={!hasResume}
+                    onClick={handleDownload}
                     download
                     variant="primary"
                     icon={Download}
                     className="w-full"
                   >
-                    Download PDF
+                    {hasResume ? "Download PDF" : "Resume Not Available"}
                   </Button>
                 </div>
 
@@ -72,25 +108,37 @@ export default function Resume() {
                     </h4>
                   </div>
                   <div className="h-64 bg-gray-50 dark:bg-white/5">
-                    <object
-                      data={resumeUrl}
-                      type="application/pdf"
-                      className="w-full h-full"
-                    >
-                      <div className="flex items-center justify-center h-full text-center p-4">
+                    {hasResume ? (
+                      <object
+                        data={resumeUrl}
+                        type="application/pdf"
+                        className="w-full h-full"
+                      >
+                        <div className="flex items-center justify-center h-full text-center p-4">
+                          <p className="text-sm text-gray-400 dark:text-gray-500">
+                            PDF preview unavailable.
+                            <br />
+                            <a
+                              href={resumeUrl}
+                              className="text-indigo-500 hover:text-indigo-600 font-medium"
+                              onClick={handleDownload}
+                            >
+                              Download instead
+                            </a>
+                          </p>
+                        </div>
+                      </object>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full text-center p-6">
+                        <FileText size={32} className="text-gray-400 dark:text-gray-600 mb-2" />
                         <p className="text-sm text-gray-400 dark:text-gray-500">
-                          PDF preview unavailable.
-                          <br />
-                          <a
-                            href={resumeUrl}
-                            className="text-indigo-500 hover:text-indigo-600 font-medium"
-                            download
-                          >
-                            Download instead
-                          </a>
+                          No resume uploaded yet.
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-600 mt-1">
+                          Upload one from the admin panel.
                         </p>
                       </div>
-                    </object>
+                    )}
                   </div>
                 </div>
               </div>
