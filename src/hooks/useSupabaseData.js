@@ -6,6 +6,8 @@ import {
   fetchProjects,
   fetchExperiences,
   fetchNotes,
+  fetchActiveVirtualIdCard,
+  fetchVirtualIdCards,
 } from "../utils/supabaseClient";
 
 // Generic hook factory
@@ -135,5 +137,70 @@ export function useNotes() {
       videoUrl: n.video_url,
       createdAt: n.created_at,
     })),
+  };
+}
+
+export function useActiveVirtualIdCard() {
+  const result = useSupabaseFetch(fetchActiveVirtualIdCard, null);
+  
+  const mappedData = result.data ? {
+    id: result.data.id,
+    name: result.data.name,
+    firstName: result.data.first_name,
+    role: result.data.role,
+    photoUrl: result.data.photo_url,
+    email: result.data.email,
+    location: result.data.location,
+    education: {
+      degree: result.data.education_degree,
+      university: result.data.education_university,
+      year: result.data.education_year,
+      gpa: result.data.education_gpa,
+    },
+    social: {
+      github: result.data.github_url,
+      linkedin: result.data.linkedin_url,
+      twitter: result.data.twitter_url,
+    },
+    interests: result.data.interests || [],
+    isActive: result.data.is_active,
+  } : null;
+
+  return {
+    ...result,
+    data: mappedData,
+  };
+}
+
+export function useVirtualIdCards() {
+  const result = useSupabaseFetch(fetchVirtualIdCards, []);
+  
+  const mappedList = (result.data || []).map(card => ({
+    id: card.id,
+    name: card.name,
+    firstName: card.first_name,
+    role: card.role,
+    photoUrl: card.photo_url,
+    email: card.email,
+    location: card.location,
+    education: {
+      degree: card.education_degree,
+      university: card.education_university,
+      year: card.education_year,
+      gpa: card.education_gpa,
+    },
+    social: {
+      github: card.github_url,
+      linkedin: card.linkedin_url,
+      twitter: card.twitter_url,
+    },
+    interests: card.interests || [],
+    isActive: card.is_active,
+    createdAt: card.created_at,
+  }));
+
+  return {
+    ...result,
+    cards: mappedList,
   };
 }

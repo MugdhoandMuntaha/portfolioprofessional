@@ -21,6 +21,7 @@ import MessagesViewer from "./pages/admin/MessagesViewer";
 import Notes from "./components/Notes";
 import NotesManager from "./pages/admin/NotesManager";
 import AIChatbot from "./components/AIChatbot";
+import VIDManager from "./pages/admin/VIDManager";
 
 function Portfolio({ isDark, toggle }) {
   return (
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="experiences" element={<ExperiencesManager />} />
         <Route path="messages" element={<MessagesViewer />} />
         <Route path="notes" element={<NotesManager />} />
+        <Route path="vid" element={<VIDManager />} />
       </Route>
 
       {/* Fallback redirect */}

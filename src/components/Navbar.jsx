@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon, Palette } from "lucide-react";
+import { Menu, X, Sun, Moon, Palette, Sparkles } from "lucide-react";
 import { useScrollspy } from "../hooks/useScrollspy";
 import { useTheme, themes } from "../hooks/useTheme";
 import Logo from "./ui/Logo";
+import VirtualIdCard from "./VirtualIdCard";
 
 const navLinks = [
   { id: "hero", label: "Home" },
@@ -19,6 +20,7 @@ export default function Navbar({ isDark, toggleDark }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+  const [isVidOpen, setIsVidOpen] = useState(false);
   const { theme: currentTheme, setTheme } = useTheme();
   const activeSection = useScrollspy();
 
@@ -93,6 +95,18 @@ export default function Navbar({ isDark, toggleDark }) {
 
             {/* Right side */}
             <div className="flex items-center gap-2">
+              {/* VID Button */}
+              <motion.button
+                onClick={() => setIsVidOpen(true)}
+                whileTap={{ scale: 0.95 }}
+                className="hidden md:flex px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-xl bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-indigo-500/5 dark:from-white/5 dark:via-white/10 dark:to-white/5 border border-indigo-500/20 dark:border-white/10 text-indigo-600 dark:text-indigo-400 hover:border-indigo-500 dark:hover:border-indigo-400 hover:bg-indigo-500/10 dark:hover:bg-white/15 transition-all duration-200 cursor-pointer shadow-sm relative overflow-hidden group select-none items-center gap-1 font-heading"
+                aria-label="Open Virtual ID Card"
+              >
+                <span className="absolute -inset-1 rounded-xl bg-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[2px]" />
+                <Sparkles size={11} className="animate-pulse" />
+                VID
+              </motion.button>
+
               {/* Theme Selector */}
               <div className="relative">
                 <motion.button
@@ -236,11 +250,28 @@ export default function Navbar({ isDark, toggleDark }) {
                     {link.label}
                   </motion.button>
                 ))}
+
+                {/* Mobile VID Button */}
+                <motion.button
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 * navLinks.length }}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsVidOpen(true);
+                  }}
+                  className="mt-4 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-md cursor-pointer hover:opacity-95 transition-all font-heading"
+                >
+                  <Sparkles size={16} />
+                  Virtual ID Card (VID)
+                </motion.button>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <VirtualIdCard isOpen={isVidOpen} onClose={() => setIsVidOpen(false)} isDark={isDark} />
     </>
   );
 }

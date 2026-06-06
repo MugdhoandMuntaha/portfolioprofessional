@@ -327,3 +327,100 @@ export async function uploadFile(bucket, path, file) {
 
   return publicUrl;
 }
+
+// ============================
+// Virtual ID Cards CRUD
+// ============================
+
+export async function fetchVirtualIdCards() {
+  const { data, error } = await supabase
+    .from("virtual_id_cards")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function fetchActiveVirtualIdCard() {
+  const { data, error } = await supabase
+    .from("virtual_id_cards")
+    .select("*")
+    .eq("is_active", true)
+    .limit(1)
+    .single();
+  if (error && error.code !== "PGRST116") throw error; // PGRST116 = no rows found
+  
+  // If no active row is set, fallback to returning the first card found
+  if (!data) {
+    const { data: firstCard, error: firstError } = await supabase
+      .from("virtual_id_cards")
+      .select("*")
+      .limit(1)
+      .single();
+    if (firstError && firstError.code !== "PGRST116") throw firstError;
+    return firstCard;
+  }
+  return data;
+}
+
+export async function addVirtualIdCard(card) {
+  // If the new card is set as active, deactivate all others first
+  if (card.is_active) {
+    await supabase
+      .from("virtual_id_cards")
+      .update({ is_active: false })
+      .neq("id", "00000000-0000-0000-0000-000000000000"); // select all
+  }
+  const { data, error } = await supabase
+    .from("virtual_id_cards")
+    .insert([card])
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateVirtualIdCard(id, updates) {
+  // If this card is updated to be active, deactivate all other cards
+  if (updates.is_active) {
+    await supabase
+      .from("virtual_id_cards")
+      .update({ is_active: false })
+      .neq("id", id);
+  }
+  const { data, error } = await supabase
+    .from("virtual_id_cards")
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteVirtualIdCard(id) {
+  const { error } = await supabase
+    .from("virtual_id_cards")
+    .delete()
+    .eq("id", id);
+  if (error) throw error;
+}
+
+export async function setActiveVirtualIdCard(id) {
+  // Deactivate all cards first
+  const { error: deactivateError } = await supabase
+    .from("virtual_id_cards")
+    .update({ is_active: false })
+    .neq("id", id);
+  if (deactivateError) throw deactivateError;
+
+  // Set the target card as active
+  const { data, error } = await supabase
+    .from("virtual_id_cards")
+    .update({ is_active: true, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}

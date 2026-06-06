@@ -13,6 +13,7 @@ import {
   X,
   Code2,
   BookOpen,
+  CreditCard,
 } from "lucide-react";
 
 const menuItems = [
@@ -21,6 +22,7 @@ const menuItems = [
   { path: "/admin/skills", label: "Skills & Category", icon: Sliders },
   { path: "/admin/experiences", label: "Experiences", icon: Briefcase },
   { path: "/admin/notes", label: "Study Notes", icon: BookOpen },
+  { path: "/admin/vid", label: "ID Card Manager", icon: CreditCard },
   { path: "/admin/messages", label: "Contact Messages", icon: Mail },
 ];
 
