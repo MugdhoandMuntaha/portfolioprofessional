@@ -330,7 +330,14 @@ Instructions for Conversation:
       setMessages((prev) => [...prev, { role: "model", text: botText }]);
     } catch (err) {
       console.error("Gemini AI API Call failed:", err);
-      const isApiKeyError = err.message?.includes("Status 404") || err.message?.includes("API key not found");
+      const isApiKeyError =
+        err.message?.includes("Status 404") ||
+        err.message?.includes("Status 401") ||
+        err.message?.includes("Status 403") ||
+        err.message?.includes("API key not found") ||
+        err.message?.includes("API key") ||
+        err.message?.includes("authentication") ||
+        err.message?.includes("credentials");
       setMessages((prev) => [
         ...prev,
         {
